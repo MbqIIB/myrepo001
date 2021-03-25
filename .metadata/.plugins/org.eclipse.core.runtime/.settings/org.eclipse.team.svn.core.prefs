@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+externalMigrateFromAuthorizationDatabase/isMigrated=true
+migrateFromAuthorizationDatabase/isMigrated=true
+repositories/10cae0898651001b1f8ec51dcfd46c64=10cae0898651001b1f8ec51dcfd46c64;http\://10.7.2.25/svn/upi/cosmos/backend/branches/Middleware/;http\://10.7.2.25/svn/upi/cosmos/backend/branches/Middleware/;branches;tags;trunk;true;a5b1b484-8e3f-4fa0-b590-9daa26063d7a;http\://10.7.2.25/svn/upi;;false;;;0
+repositories/c07eccfc884a001b1cd7de941bb3e06e=c07eccfc884a001b1cd7de941bb3e06e;http\://10.7.2.25/svn/upi/cosmos/backend;http\://10.7.2.25/svn/upi/cosmos/backend;branches;tags;trunk;true;;;;false;<http\://10.7.2.25\:80> SVN Repository;;0

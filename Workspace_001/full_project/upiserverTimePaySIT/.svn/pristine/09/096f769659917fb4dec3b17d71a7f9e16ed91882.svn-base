@@ -1,0 +1,495 @@
+package com.npst.upiserver.acquirer.service.impl;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
+import java.util.Iterator;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.npst.upiserver.acquirer.service.UpiReqAuthDetailsService;
+import com.npst.upiserver.constant.Constant;
+import com.npst.upiserver.constant.ConstantI;
+import com.npst.upiserver.constant.ErrorCode;
+import com.npst.upiserver.constant.InitiationMode;
+import com.npst.upiserver.constant.MandateStatus;
+import com.npst.upiserver.dao.BlockedByCustomerDao;
+import com.npst.upiserver.dao.CustomerAccountDao;
+import com.npst.upiserver.dao.CustomerMandatesDao;
+import com.npst.upiserver.dao.CustomerTxnsDao;
+import com.npst.upiserver.dao.RegistrationDao;
+import com.npst.upiserver.dao.ReqRespAuthDetailsDao;
+import com.npst.upiserver.dao.SpamVpaRuleDao;
+import com.npst.upiserver.dto.RegDto;
+import com.npst.upiserver.entity.CustomerAccount;
+import com.npst.upiserver.entity.CustomerMandatesEntity;
+import com.npst.upiserver.npcischema.AccountDetailType;
+import com.npst.upiserver.npcischema.AccountType;
+import com.npst.upiserver.npcischema.AccountType.Detail;
+import com.npst.upiserver.npcischema.Ack;
+import com.npst.upiserver.npcischema.AddressType;
+import com.npst.upiserver.npcischema.AmtRuleType;
+import com.npst.upiserver.npcischema.CredSubType;
+import com.npst.upiserver.npcischema.CredType;
+import com.npst.upiserver.npcischema.CredsType;
+import com.npst.upiserver.npcischema.CredsType.Cred.Data;
+import com.npst.upiserver.npcischema.HeadType;
+import com.npst.upiserver.npcischema.IdentifierType;
+import com.npst.upiserver.npcischema.IdentityConstant;
+import com.npst.upiserver.npcischema.IdentityType;
+import com.npst.upiserver.npcischema.InfoType;
+import com.npst.upiserver.npcischema.MerchantGenreType;
+import com.npst.upiserver.npcischema.MerchantIdentifierType;
+import com.npst.upiserver.npcischema.MerchantOnBoardingType;
+import com.npst.upiserver.npcischema.MerchantOwnership;
+import com.npst.upiserver.npcischema.MerchantType;
+import com.npst.upiserver.npcischema.NameType;
+import com.npst.upiserver.npcischema.OwnershipType;
+import com.npst.upiserver.npcischema.PayeeType;
+import com.npst.upiserver.npcischema.PayeesType;
+import com.npst.upiserver.npcischema.PayerConstant;
+import com.npst.upiserver.npcischema.RatingType;
+import com.npst.upiserver.npcischema.ReqAuthDetails;
+import com.npst.upiserver.npcischema.RespAuthDetails;
+import com.npst.upiserver.npcischema.RespType;
+import com.npst.upiserver.npcischema.ResultType;
+import com.npst.upiserver.npcischema.WhiteListedConstant;
+import com.npst.upiserver.repo.CustomerAccountRepository;
+import com.npst.upiserver.service.NotificationService;
+import com.npst.upiserver.service.NpciUpiRestConService;
+import com.npst.upiserver.util.DigitalSignUtil;
+import com.npst.upiserver.util.ErrorLog;
+import com.npst.upiserver.util.MandateUtil;
+import com.npst.upiserver.util.MarshalUpi;
+import com.npst.upiserver.util.Util;
+
+@Service
+public class UpiReqAuthDetailsServiceImpl implements UpiReqAuthDetailsService {
+	private static final Logger log = LoggerFactory.getLogger(UpiReqAuthDetailsServiceImpl.class);
+	private static final DateTimeFormatter formatter_ddMMyyyy = DateTimeFormatter.ofPattern("ddMMyyyy");
+	@Autowired
+	private NpciUpiRestConService npciUpiRestConService;
+	@Autowired
+	private CustomerAccountRepository customerAccountRepo;
+	@Autowired
+	private RegistrationDao registrationDao;
+	@Autowired
+	private ReqRespAuthDetailsDao reqRespAuthDetailsDao;
+	@Autowired
+	private CustomerTxnsDao customerTxnsDao;
+	@Autowired
+	private SpamVpaRuleDao spamVpaRuleDao;
+	@Autowired
+	private CustomerMandatesDao customerMandatesDao;
+	@Autowired
+	private BlockedByCustomerDao blockedByCustomerDao;
+	@Autowired
+	private NotificationService notiService;
+	
+	@Autowired
+	CustomerAccountDao			custAccDao;
+
+	@Autowired
+	BlockedByCustomerDao		blockedByCustDao;
+	
+	@Override
+	public void acquirerProcess(final ReqAuthDetails reqAuthDetails) {
+		log.info("reqAuthDetails {}", reqAuthDetails);
+		try {
+			String ts = Util.getTS();
+			String msgId = Util.uuidGen();
+			customerTxnsDao.insert(reqAuthDetails);
+			reqRespAuthDetailsDao.insertReq(reqAuthDetails);
+			RespAuthDetails respAuthDetails = new RespAuthDetails();
+			HeadType head = new HeadType();
+			head.setMsgId(msgId);
+			head.setOrgId(Constant.orgId);
+			head.setTs(ts);
+			head.setVer(Constant.headVer);
+			respAuthDetails.setHead(head);
+			log.info("Txn Type {}", reqAuthDetails.getTxn().getType().value());
+			respAuthDetails.setTxn(reqAuthDetails.getTxn());
+			if (ConstantI.COLLECT.equalsIgnoreCase(reqAuthDetails.getTxn().getType().value())) {
+				// TODO need discussion
+				if (InitiationMode.MANDATE.getMode().equals(reqAuthDetails.getTxn().getInitiationMode())) {
+					procMandateCollect(reqAuthDetails, respAuthDetails);
+				} else {
+					procCollect(reqAuthDetails, respAuthDetails);
+				}
+			} else if (ConstantI.PAY.equalsIgnoreCase(reqAuthDetails.getTxn().getType().value()) || ConstantI.PAY.equalsIgnoreCase(reqAuthDetails.getTxn().getSubType().value())) // to be discussed 
+			{
+				procPay(reqAuthDetails, respAuthDetails);
+			} else {
+				log.error("TxnType mismatch neither COLLECT nor PAY");
+				// Validation error ZD OR XB
+				// respAuthDetails.setResp(resp);
+			}
+
+		} catch (Exception e) {
+			log.error("inside acquirerProcess {}", e);
+			ErrorLog.sendError(e, UpiReqAuthDetailsServiceImpl.class);
+		}
+
+	}
+
+	private void procPay(final ReqAuthDetails reqAuthDetails, final RespAuthDetails respAuthDetails) {
+		try {
+			log.info("procPay  ");
+			RespType resp = new RespType();
+			resp.setReqMsgId(reqAuthDetails.getHead().getMsgId());
+			PayeesType payees = reqAuthDetails.getPayees();
+			PayeesType payeesNew = new PayeesType();
+			List<PayeeType> payeeList = payees.getPayee();
+			List<PayeeType> payeeListNew = payeesNew.getPayee();
+			Iterator<PayeeType> iterator = payeeList.iterator();
+			// TODO discussion
+			while (iterator.hasNext()) {
+				boolean flag = false;
+				PayeeType payee = iterator.next();
+				PayeeType payeeNew = new PayeeType();
+				List<CustomerAccount> listaccounts = customerAccountRepo
+						.findByAccvirtualid(payee.getAddr().trim().toLowerCase());
+				if (0 == listaccounts.size()) {
+					resp.setResult(ConstantI.FAILURE);
+					resp.setErrCode(ConstantI.RESP_ZH);
+				} else {
+					Long regId = custAccDao.getRegIdByVPA(payee.getAddr().trim().toLowerCase());
+					log.info("regId is as  {} ",regId);
+					if (0 == regId) {
+						resp = setRespTypeCodes(resp, ConstantI.FAILURE, Constant.INVALIDVIRTUALADDRESS);
+					}
+					else {
+						boolean isActive = registrationDao.isActiveUser(regId);
+						log.info("isActive is as {}",isActive);
+						if (isActive) {
+							int i = 1;
+							for (CustomerAccount listaccount : listaccounts) {
+								log.info("Loop ");
+								
+								if (1 == listaccount.getDefaccount() && 1 == listaccount.getStatus()) {
+									log.info("First If ");
+									
+									resp.setResult(ConstantI.SUCCESS);
+									resp.setErrCode(null);
+									payeeNew.setAddr(payee.getAddr());
+									payeeNew.setAmount(payee.getAmount());
+									payeeNew.setCode(listaccount.getCustcode());
+									payeeNew.setSeqNum(i + ConstantI.CONST_BLANK);
+									payeeNew.setType(PayerConstant.fromValue(listaccount.getCusttype()));
+									payeeNew.setName(payee.getName());
+									InfoType info = new InfoType();
+									RatingType rating = new RatingType();
+									rating.setVerifiedAddress(WhiteListedConstant.TRUE);
+									info.setRating(rating);
+									IdentityType identity = new IdentityType();
+									identity.setId(listaccount.getAccrefnumber());
+									identity.setType(IdentityConstant.ACCOUNT);
+									identity.setVerifiedName(listaccount.getName().toUpperCase());
+									info.setIdentity(identity);
+									payeeNew.setInfo(info);
+									AccountType ac = new AccountType();
+									ac.setAddrType(AddressType.ACCOUNT);
+									List<Detail> details = ac.getDetail();
+									Detail detail = new Detail();
+									detail.setName(AccountDetailType.IFSC);
+									detail.setValue(listaccount.getIfsc().toUpperCase());
+									details.add(detail);
+									detail = new Detail();
+									detail.setName(AccountDetailType.ACTYPE);
+									detail.setValue(listaccount.getAcctype());
+									details.add(detail);
+									detail = new Detail();
+									detail.setName(AccountDetailType.ACNUM);
+									detail.setValue(listaccount.getAccrefnumber());
+									details.add(detail);
+									
+									payeeNew.setAc(ac);
+									payeeListNew.add(payeeNew);
+									flag = true;
+									i++;
+									break;
+								} else if (4 == listaccount.getStatus()) {
+									resp.setResult(ConstantI.FAILURE);
+									resp.setErrCode(Constant.NOTPERMITTED);
+								} else {
+									resp.setResult(ConstantI.FAILURE);
+									resp.setErrCode(ConstantI.RESP_ZG);
+								}
+							}
+						} else {
+							resp.setResult(ConstantI.FAILURE);
+							resp.setErrCode(Constant.EXPIREDVIRTUALADDRESS);
+						}
+					}
+				}
+				if (!flag) {
+					
+					if("yes".equalsIgnoreCase(Util.getProperty("RESPAUTH_MER"))){
+						for (CustomerAccount customerAccount : listaccounts) {
+							payee.setMerchant(getMerchantType(customerAccount));
+						}
+					}
+					
+					payeeListNew.add(payee);
+				}
+			}
+			payees = payeesNew;
+			
+			
+			respAuthDetails.setResp(resp);
+			respAuthDetails.setPayees(payees);
+			respAuthDetails.setPayer(reqAuthDetails.getPayer());
+			String xmlStr = DigitalSignUtil.signXML(MarshalUpi.marshal(respAuthDetails).toString());
+			log.info("response is as {} ",xmlStr);
+			Ack ack = npciUpiRestConService.send(xmlStr, ConstantI.RESP_AUTH_DETAILS, reqAuthDetails.getTxn().getId());
+			reqRespAuthDetailsDao.updateResp(respAuthDetails, ack);
+			customerTxnsDao.update(respAuthDetails, ack);
+		} catch (Exception e) {
+			log.error("error in procPay {}", e);
+			ErrorLog.sendError(e, UpiReqAuthDetailsServiceImpl.class);
+		}
+	}
+
+	private void procCollect(final ReqAuthDetails reqAuthDetails, final RespAuthDetails respAuthDetails) {
+		try {
+			RespType resp = new RespType();
+			resp.setReqMsgId(reqAuthDetails.getHead().getMsgId());
+			List<PayeeType> payee = reqAuthDetails.getPayees().getPayee();
+			// TODO discussion
+			String payeeVpa = "";
+			List<String> spamvparules = null;
+			for (PayeeType payeeType : payee) {
+				payeeVpa = payeeType.getAddr().toLowerCase();
+				spamvparules = spamVpaRuleDao.getSpamVpa(payeeVpa);
+			}
+			if (0 == spamvparules.size()) {
+				List<CustomerAccount> listaccounts = customerAccountRepo
+						.findByAccvirtualid(reqAuthDetails.getPayer().getAddr().toLowerCase());
+				if (0 == listaccounts.size()) {
+					resp.setResult(ConstantI.FAILURE);
+					resp.setErrCode(Constant.INVALIDVIRTUALADDRESS);
+				} else {
+					Long regId = custAccDao.getRegIdByVPA(reqAuthDetails.getPayer().getAddr());
+					log.debug("reg Id is {}",regId);
+					if (0 == regId) {
+						resp = setRespTypeCodes(resp, ConstantI.FAILURE, Constant.INVALIDVIRTUALADDRESS);
+					} 
+					else {
+						boolean isActive = registrationDao.isActiveUser(regId);
+						if (isActive) {
+							log.debug("going to chk block vpa");
+							boolean isBlocked = blockedByCustDao.isBlockedVpa(payeeVpa, regId);
+							log.debug("is blocked vpa {}",isBlocked);
+							if (isBlocked) {
+								resp.setResult(ConstantI.FAILURE);
+								resp.setErrCode(Constant.BLOCKBYCUSTOMER);
+							} else {
+								for (CustomerAccount listaccount : listaccounts) {
+									
+									if (1 == listaccount.getDefaccount() && 1 == listaccount.getStatus()) {
+										RegDto regvpa = registrationDao.getGCMToken(listaccount.getRegid());
+										notiService.sendNoti(reqAuthDetails, regvpa);
+										resp.setResult(ConstantI.SUCCESS);
+										break;
+									} else if (4 == listaccount.getStatus()) {
+										
+										resp.setResult(ConstantI.FAILURE);
+										resp.setErrCode(Constant.NOTPERMITTED);
+									} else {
+										resp.setResult(ConstantI.FAILURE);
+										resp.setErrCode(Constant.NOTACTIVEVIRTUALADDRESS);
+									}
+								}
+							}
+						} else {
+							resp.setResult(ConstantI.FAILURE);
+							resp.setErrCode(Constant.EXPIREDVIRTUALADDRESS);
+						}
+					}
+					
+				}
+			} else {
+				String rule = ConstantI.CONST_BLANK;
+				for (String str : spamvparules) {
+					rule = str;
+					break;
+				}
+				resp.setResult(ConstantI.FAILURE);
+				resp.setErrCode(rule);
+			}
+			
+			
+			if (ConstantI.FAILURE.equalsIgnoreCase(resp.getResult())) {
+				respAuthDetails.setResp(resp);
+				respAuthDetails.setPayees(reqAuthDetails.getPayees());
+				respAuthDetails.setPayer(reqAuthDetails.getPayer());
+				String xmlStr = DigitalSignUtil.signXML(MarshalUpi.marshal(respAuthDetails).toString());
+				Ack ack = npciUpiRestConService.send(xmlStr, ConstantI.RESP_AUTH_DETAILS,
+						reqAuthDetails.getTxn().getId());
+				reqRespAuthDetailsDao.updateResp(respAuthDetails, ack);
+				customerTxnsDao.update(respAuthDetails, ack);
+			}
+
+		} catch (Exception e) {
+			log.error("in procCollect {}", e);
+			ErrorLog.sendError(e, UpiReqAuthDetailsServiceImpl.class);
+		}
+
+	}
+
+	void procMandateCollect(final ReqAuthDetails reqAuthDetails, final RespAuthDetails respAuthDetails) {
+		try {
+			RespType resp = new RespType();
+			resp.setReqMsgId(reqAuthDetails.getHead().getMsgId());
+			String payerVpa = reqAuthDetails.getPayer().getAddr();
+			String umn = payerVpa;
+			CustomerMandatesEntity customerMandates = customerMandatesDao.findByUmn(umn);
+			if (customerMandates != null) {
+				if (MandateStatus.MANDATE_PAUSED.getStatus() == customerMandates.getStatus()) {
+					resp.setResult(ResultType.FAILURE.toString());
+					resp.setErrCode(ErrorCode.MANDATE_PSP_QA.getUpiCode());
+				} else if (MandateStatus.MANDATE_REVOKED.getStatus() == customerMandates.getStatus()) {
+					resp.setResult(ResultType.FAILURE.toString());
+					resp.setErrCode(ErrorCode.MANDATE_PSP_QC.getUpiCode());
+				} else {
+					LocalDateTime today = LocalDateTime.now();
+					String validityend = customerMandates.getMandateValidityEnd();
+					LocalDateTime validityenddate = LocalDateTime.parse(validityend, formatter_ddMMyyyy);
+					if (today.isBefore(validityenddate)) {
+						resp.setResult(ResultType.FAILURE.toString());
+						resp.setErrCode(ErrorCode.MANDATE_PSP_QD.getUpiCode());
+					}
+
+					if (Double.valueOf(customerMandates.getMandateAmountrule()) < Double
+							.valueOf(reqAuthDetails.getPayer().getAmount().getValue())
+							|| (AmtRuleType.EXACT.toString().equals(customerMandates.getMandateAmountrule())
+									&& !reqAuthDetails.getPayer().getAmount().getValue()
+											.equals(customerMandates.getMandateAmountvalue())
+									|| AmtRuleType.MAX.toString().equals(customerMandates.getMandateAmountrule())
+											&& (Double
+													.valueOf(reqAuthDetails.getPayer().getAmount().getValue()) > Double
+															.valueOf(customerMandates.getMandateAmountvalue())))) {
+						resp.setResult(ResultType.FAILURE.toString());
+						resp.setErrCode(ErrorCode.MANDATE_PSP_QH.getUpiCode());
+					}
+
+					else if (!customerMandates.getPayeeVpa()
+							.equalsIgnoreCase(reqAuthDetails.getPayees().getPayee().get(0).getAddr())) {
+						resp.setResult(ResultType.FAILURE.toString());
+						resp.setErrCode(ErrorCode.MANDATE_PSP_QI.getUpiCode());
+					} else if (customerTxnsDao.isHonouredTxn(customerMandates.getMandateUmn(),
+							reqAuthDetails.getPayer().getAddr())) {
+						resp.setResult(ResultType.FAILURE.toString());
+						resp.setErrCode(ErrorCode.MANDATE_PSP_QK.getUpiCode());
+					} else if (MandateUtil.checkForTxnDayAndRecPattern(customerMandates)) {
+						resp.setResult(ResultType.FAILURE.toString());
+						resp.setErrCode(ErrorCode.MANDATE_PSP_QR.getUpiCode());
+					} else {
+						CredsType creds = respAuthDetails.getPayer().getCreds();
+						CredsType.Cred mandatecred = new CredsType.Cred();
+						Data data = new Data();
+						data.setValue(
+								Base64.getEncoder().encodeToString(customerMandates.getMandateSignValue().getBytes()));
+						mandatecred.setData(data);
+						mandatecred.setType(CredType.UPI_MANDATE);
+						mandatecred.setSubType(CredSubType.DS);
+						creds.getCred().add(mandatecred);
+						respAuthDetails.getPayer().setCreds(creds);
+						resp.setResult(ResultType.SUCCESS.toString());
+					}
+				}
+
+			} else {
+				resp.setResult(ResultType.FAILURE.toString());
+				resp.setErrCode(ConstantI.UKN);
+			}
+			respAuthDetails.setResp(resp);
+			if (!ConstantI.UKN.equals(resp.getErrCode())) {
+				String xmlStr = DigitalSignUtil.signXML(MarshalUpi.marshal(respAuthDetails).toString());
+				Ack ack = npciUpiRestConService.send(xmlStr, ConstantI.RESP_AUTH_DETAILS,
+						reqAuthDetails.getTxn().getId());
+				reqRespAuthDetailsDao.updateResp(respAuthDetails, ack);
+				customerTxnsDao.update(respAuthDetails, ack);
+			}
+		} catch (Exception e) {
+			log.error("error in proc CollectMandate {}", e);
+			ErrorLog.sendError(e, UpiReqAuthDetailsServiceImpl.class);
+		}
+
+	}
+	
+	private RespType setRespTypeCodes(RespType resp, final String respResult, final String respErrorCode)
+			throws Exception {
+		resp.setResult(ConstantI.FAILURE);
+		resp.setErrCode(Constant.EXPIREDVIRTUALADDRESS);
+		return resp;
+	}
+	
+private MerchantType getMerchantType(CustomerAccount listaccount) {
+		
+		MerchantType merchant = new MerchantType();
+		IdentifierType iden = new IdentifierType();
+		iden.setMerchantGenre(MerchantGenreType.OFFLINE);
+		iden.setMerchantType(MerchantIdentifierType.SMALL);
+		iden.setMid(String.valueOf(listaccount.getRegid()));
+		iden.setOnBoardingType(MerchantOnBoardingType.BANK);
+		iden.setSid(ConstantI.MID_CONT);
+		iden.setSubCode(listaccount.getCustcode());
+		iden.setTid(ConstantI.MID_CONT);
+		merchant.setIdentifier(iden);
+		NameType nameType = new NameType();
+		
+		
+		if(listaccount.getName().length() > ConstantI.NAME_Length) {
+			
+			nameType.setBrand(listaccount.getName().substring(0, 14));
+			nameType.setLegal(listaccount.getName().substring(0, 14));
+			nameType.setFranchise(listaccount.getName().substring(0, 14));
+			
+		}
+		
+		else {
+			nameType.setBrand(listaccount.getName());
+			nameType.setLegal(listaccount.getName());
+			nameType.setFranchise(listaccount.getName());
+			}
+
+		nameType.setBrand(listaccount.getName());
+		nameType.setLegal(listaccount.getName());
+		nameType.setFranchise(listaccount.getName());
+		merchant.setName(nameType);
+		MerchantOwnership ownership = new MerchantOwnership();
+		ownership.setType(OwnershipType.PRIVATE);
+		merchant.setOwnership(ownership);
+		return merchant;
+	}
+
+private static MerchantType setMerchant() {
+	
+	
+	MerchantType merchant=new MerchantType(); 
+	IdentifierType iden=new IdentifierType();
+	iden.setMerchantGenre(MerchantGenreType.OFFLINE);
+	iden.setMerchantType(MerchantIdentifierType.SMALL);
+	iden.setMid("6889951");
+	iden.setOnBoardingType(MerchantOnBoardingType.AGGREGATOR);
+	iden.setSid("1324561");
+	iden.setSubCode("7299");
+	iden.setTid("56789");
+	merchant.setIdentifier(iden);
+	NameType nameType=new NameType();
+	nameType.setBrand("nps");
+	nameType.setLegal("nps ltd.");
+	nameType.setFranchise("zz");
+	merchant.setName(nameType);
+	MerchantOwnership ownership=new MerchantOwnership();
+	ownership.setType(OwnershipType.PRIVATE);
+	merchant.setOwnership(ownership);
+	return merchant;
+}
+
+}

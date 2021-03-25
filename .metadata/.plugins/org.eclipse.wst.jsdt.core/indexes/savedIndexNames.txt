@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+/home/npst/Workspace_Cosmos/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+1080799104.index
+2357358350.index
+1882896994.index
+2100467100.index
+55159261.index
+3086996334.index

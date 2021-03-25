@@ -1,0 +1,15 @@
+# RabbitMQ host.
+spring.rabbitmq.host=localhost
+# Login user to authenticate to the broker.
+spring.rabbitmq.username=guest
+# Login to authenticate against the broker.
+spring.rabbitmq.password=guest
+# RabbitMQ port.
+#spring.rabbitmq.port=15672
+
+#NPCI_INCOMING_QUEUE=UPI.TO.PSP_2
+NPCI_INCOMING_QUEUE=UPI.TO.PSP_2
+#MOB_UPI_QUEUE=UPI.TO.PSP
+MOB_UPI_QUEUE=MOBILE.TO.PSP_2
+MOB_MANDATE_QUEUE=MOBILE.TO.MANDATE
+MOB_ONUS_QUEUE=ONUS.QUEUE

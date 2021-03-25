@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: upiserver
+Implementation-Version: 1.0
+Built-By: npst
+Implementation-Vendor-Id: com.npst
+Build-Jdk: 1.8.0_271
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/upiserver
+Created-By: Maven Integration for Eclipse
+

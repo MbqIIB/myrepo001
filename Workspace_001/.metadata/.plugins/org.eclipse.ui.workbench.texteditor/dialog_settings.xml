@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="382" key="DIALOG_X_ORIGIN"/>
+		<item value="226" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="sendOtp" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="sendOtp"/>
+			<item value="/Mobile/sendOtp"/>
+			<item value="sendotp"/>
+			<item value="send"/>
+			<item value="Starting accountVerification for list account from tempIsoMessageFromCBS:"/>
+			<item value="ifsc"/>
+			<item value="Fatching customer Id"/>
+			<item value="Request String"/>
+			<item value="value of isUpi"/>
+			<item value="Flag After getting Mobile UPI Resp 1"/>
+			<item value="Upi/PAY"/>
+			<item value="Packager"/>
+			<item value="packager"/>
+			<item value="102"/>
+			<item value="PROPFILENAME"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="350" key="DIALOG_WIDTH"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="417" key="DIALOG_HEIGHT"/>
+		<item value="848" key="DIALOG_X_ORIGIN"/>
+		<item value="316" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

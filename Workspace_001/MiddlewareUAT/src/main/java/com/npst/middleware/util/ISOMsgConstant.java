@@ -1,0 +1,65 @@
+package com.npst.middleware.util;
+
+public class ISOMsgConstant {
+	public static final String DE_32 = "627611";
+	public static final String DE_33 = "654321";
+	public static final String DE_49 = "356";
+//	public static final String DE_123="ITB";
+	public static final String DE_123="UPI";
+	public static final String DE_124="TAB";
+	public static final String DE_2="0000000";
+//	public static final String DE_125="0125  0902616ALL";
+	public static final String DE_ALL="ALL";
+	public static final String DE_125="0125";
+	public static final String DE_102="627611     026     0260501057655";
+	public static final String BRANCH_CODE="627611";
+	public static final String DE_LEFT_PAD="";
+	public static final String MTI_FIN_VALUE="1200";
+	public static final String MSG_HEADER="ISO015000010";
+	public static final String DE_24="200";
+	public static final String BAL_ENG_PROCESSING_CODE = "970000";
+	public static final String BAL_ENQ_PROCESSING_CODE="310000";
+	public static final String GET_ACC_LIST_PROCESSING_CODE = "370000";
+	public static final String FUND_PROCESSING_CODE = "400000";
+	public static final String FUND_REVERSAL_DE_24 = "400";
+	public static final String SUBCODE ="06"; 
+	public static final String BANK_CODE ="626711"; 
+	public static final String BAL_DE_125 = "01";
+	public static final Integer STATUS_PENDING=1;
+	public static final Integer STATUS_SUCCESS=2;
+	public static final Integer STATUS_FAIL=3;
+	public static final String FUND_TRANSFER_DE_2="0000000";
+	public static final String FUND_TRANSFER_DE_24="200";
+	public static final String FUND_TRANSFER_DE_49="INR";
+	public static final String FUND_TRANSFER_REVERSAL_DE_56="12000000001728632017091312015506627611";
+	public static final String CBS_NO_RESPONSE="UKN";
+	public static final String FUND_TRANSFET_REVERSAL_MTI="1420";
+	public static final String CBS_SUCCESS_RESPONSE="000";
+	public static final String ATM_SUCCESS_RESPONSE="00";
+	public static final String ATM_CARD_PROCESSING_CODE="CV0000";
+	public static final String UPI_SUCCESS_RESPONSE="0";
+	public static final String FUND_TRANSFER_DE_46="01INRD000000000000000000000000D0000000000000000INR";
+	public static final String FEE_TYPE_CODE_N2="01";
+	public static final String CURRENCY_CODE_N3="INR";
+	public static final String DEBIT_INDICATOR_N1="D";
+	public static final String CREDIT_INDICATOR_N1="C";
+	public static final String DE_N16="0000000000000000";
+	public static final String CONVERSION_RATE_N8="00000000";
+	public static final String ISO_HEADER="ISO015000010";
+	public static final String CUSTOMER_ID="0902616";
+	public static final String DE_3="910000";
+	public static final String DE_4="970000";
+	public static final String STATUS_CODE="200";
+		
+	public static final String REVERSAL_OC="OC";
+	public static final String REVERSAL_OD="OD";
+	public static final String REVERSAL_ND = "ND";
+	public static final String REVERSAL_NC = "NC";
+	public static final String ERROR_CODE_CBS_119 = "119";
+	public static final String ACCOUNT_TYPE_DORMANT="DORMANT";
+	public static final String ACCOUNT_TYPE_FROZEN="FROZEN";
+	public static final String BAL_ZERO = "0000000000000000";
+	
+	public static final String ISO_HEADER1="ISO015000050";
+	public static String FIR_TYPE="FIR";
+}

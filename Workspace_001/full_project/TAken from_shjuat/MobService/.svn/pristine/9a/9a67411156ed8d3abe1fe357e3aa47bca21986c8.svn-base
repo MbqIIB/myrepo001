@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+	<session-factory>
+		<!-- Enable the logging of all the generated SQL statements to the console -->
+		<property name="show_sql">true</property>
+
+		<!-- Format the generated SQL statement to make it more readable, -->
+		<property name="format_sql">false</property>
+
+		<!-- Hibernate will put comments inside all generated SQL statements to 
+			hint what’s the generated SQL trying to do -->
+		<property name="use_sql_comments">true</property>
+
+		<!-- This property makes Hibernate generate the appropriate SQL for the 
+			chosen database. -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<!-- Drop and re-create the database schema on startup -->
+<!-- 		<property name="hbm2ddl.auto">update</property> -->
+		<property name="connection.release_mode">after_transaction</property>
+
+		<!-- Hikari specific properties -->
+		<property name="connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
+		<property name="hikari.dataSource.cachePrepStmts">true</property>
+		<property name="hikari.dataSource.prepStmtCacheSize">250</property>
+		<property name="hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
+		<property name="hikari.dataSource.useServerPrepStmts">true</property>
+		<property name="hikari.maximumPoolSize">30</property>
+		<property name="hikari.idleTimeout">30000</property>
+
+		<!-- Database connection properties -->
+		<property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
+		<!-- <property name="hikari.dataSource.url">jdbc:mysql://172.25.12.231:3306/upidb</property> -->
+		
+		<!-- PRODUCTION -->
+		<!-- <property name="hikari.dataSource.url">jdbc:mysql://192.168.69.3:3306/upicosmosdb</property>
+		<property name="hikari.dataSource.user">cosmosupi</property>
+		<property name="hikari.dataSource.password">qUQ/ooVmQUwTLrt9ymmleQ==</property> -->
+		
+		<!-- UAT timePay -->
+		<!-- <property name="hikari.dataSource.url">jdbc:mysql://172.25.6.231:3306/dbcosupi</property>
+		<property name="hikari.dataSource.user">timepayupi</property>
+		<property name="hikari.dataSource.password">s3VZeatrkrmwYmrw0uKsGA==</property> -->
+		
+		
+		<!-- UAT -->
+		<!-- <property name="hikari.dataSource.url">jdbc:mysql://172.25.6.231:3306/dbcosupi</property>
+		<property name="hikari.dataSource.user">upi</property>
+		<property name="hikari.dataSource.password">s3VZeatrkrmwYmrw0uKsGA==</property> -->
+		
+		<!-- LOCAL -->
+		<property name="hikari.dataSource.url">jdbc:mysql://localhost:3306/dbcosupitest</property>
+		<property name="hikari.dataSource.user">root</property>
+		<property name="hikari.dataSource.password">WGbSK3WQA6UVMTO7VaQ0Tg==</property>
+		
+		
+		<mapping class="com.npst.upi.hor.Registration" />
+		<mapping class="com.npst.upi.hor.Blockedvpa" />
+		<mapping class="com.npst.upi.hor.Customeraccount" />
+		<mapping class="com.npst.upi.hor.Lov" />
+		<mapping class="com.npst.upi.hor.Silentsms" />
+		<mapping class="com.npst.upi.hor.Useractivity" />
+		<mapping class="com.npst.upi.hor.Auditmobileservice" />
+		<mapping class="com.npst.upi.hor.Complaint" />
+		<mapping class="com.npst.upi.hor.CustomerTxns" />
+		<mapping class="com.npst.upi.hor.Mobupireqrespjson" />
+		<mapping class="com.npst.upi.hor.Mobupireqrespjsonid" />
+		<mapping class="com.npst.upi.hor.Accountproviders" />
+		<mapping class="com.npst.upi.hor.Reqresplistaccpvd" />
+		<mapping class="com.npst.upi.hor.Reqrespauthdetails" />
+		<mapping class="com.npst.upi.hor.ReqrespauthdetailsPayees" />
+		<mapping class="com.npst.upi.hor.CrashAnalyticsInfo" />
+		<mapping class="com.npst.upi.hor.NegativeMobileNumber" />
+		<mapping class="com.npst.upi.hor.ReservedVPA" />
+		<mapping class="com.npst.upi.hor.Beneficiary" />
+		<mapping class="com.npst.upi.hor.Blockedbycustomer" />
+		<mapping class="com.npst.upi.hor.AcqOtpRecord" />
+		<mapping class="com.npst.upi.hor.Feedback" />
+		<mapping class="com.npst.upi.hor.UpiPin" />
+		<mapping class="com.npst.upi.hor.MasterConfig" />
+		<mapping class="com.npst.upi.hor.Appversion" />
+		<mapping class="com.npst.upi.hor.TimePayProperty" />
+		<mapping class="com.npst.upi.hor.Securityencryption" />
+		<mapping class="com.npst.upi.hor.CustomerVPA" />
+		
+		<mapping class="com.npst.upi.hor.CustomerMandatesEntity" />
+		<mapping class="com.npst.upi.hor.MandatesEntity" />
+		<mapping class="com.npst.upi.hor.MandatesHistoryEntity" />
+		<mapping class="com.npst.upi.hor.MandateTxnsEntity" />
+		<mapping class="com.npst.upi.hor.MobMandateReqRespJsonEntity" />
+		<mapping class="com.npst.upi.hor.MobMandateReqRespJsonIdEntity" />
+		<mapping class="com.npst.upi.hor.ReqRespAuthMandateEntity" />
+		<mapping class="com.npst.upi.hor.ReqRespAuthMandatePayeesEntity" />
+		<mapping class="com.npst.upi.hor.DeviceRegLimitEntity" />
+		
+		<mapping class="com.npst.upi.hor.AcqTxnLimitEntity" />
+		<mapping class="com.npst.upi.hor.ListPspKeysEntity" />
+		<mapping class="com.npst.upi.hor.ListVaeEntity" />
+		<mapping class="com.npst.upi.hor.InitiateRequest" />
+		
+		
+		
+		
+	</session-factory>
+
+</hibernate-configuration>

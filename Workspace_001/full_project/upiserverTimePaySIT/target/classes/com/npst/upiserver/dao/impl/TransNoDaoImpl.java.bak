@@ -1,0 +1,33 @@
+package com.npst.upiserver.dao.impl;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.npst.upiserver.dao.TransNoDao;
+import com.npst.upiserver.repo.TransnoRepository;
+
+@Component
+public class TransNoDaoImpl implements TransNoDao {
+	
+	private static final Logger log = LoggerFactory.getLogger(TransNoDaoImpl.class);
+	
+	@Autowired
+	private TransnoRepository transNoRepo;
+	
+	@Override
+	public String getTransNo(Integer orgId) {
+		try {
+			if(orgId==0) {
+				return null;
+			}
+			else {
+				return transNoRepo.getTransNo(orgId);
+			}
+		}
+		catch (Exception e) {
+			log.error(e.getMessage(),e);
+			return null;
+		}
+	}
+}

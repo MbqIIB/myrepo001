@@ -1,0 +1,15 @@
+#MB.REG.URL=http://122.170.13.200/Cosmos/PushSMSService.svc/RegistraterMobile
+#MB.CGMPIN.URL=http://122.170.13.200/Cosmos/PushSMSService.svc/ChangeMPin
+#MB.MPINVAL.URL=http://122.170.13.200/Cosmos/PushSMSService.svc/MpinValidate
+#MB.GETACC.URL=http://122.170.13.200/Cosmos/PushSMSService.svc/GetAccList
+#
+#OTP.LEN=6
+#
+#ISO.GENERICPACKAGER=src//main//resources//basic.xml
+#
+#
+##*******************ISO MESSAGE PROPERTY**************************
+##ATM PORT AND IP ADDRESS
+#ATM_IP=10.10.25.30
+#ATM_PORT=5001
+#POOL_ACCOUNT=12345678901234

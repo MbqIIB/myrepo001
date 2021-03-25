@@ -1,0 +1,25 @@
+debug=true
+
+db.driver: com.mysql.jdbc.Driver
+db.url: jdbc:mysql://localhost:3306/dbcosupitest?autoReconnect=true&useSSL=false
+db.username: root
+db.password: MGvCPdQWAyEhypJ+oFr4Og==
+
+#Connection timeout in milliseconds
+db.connectiontimeout=60000
+#Idle timeout in milliseconds
+db.idletimeout=60000
+db.maxpoolsize=100
+db.maxlifetime=60000
+db.minidleconnection=10
+#Other Properties
+db.cachePrepStmts=true
+db.prepStmtCacheSize=250
+db.prepStmtCacheSqlLimit=2048
+
+
+hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+hibernate.show_sql: true
+entitymanager.packagesToScan: com.npst
+spring.profiles.active=httprestconnection
+server.port=1987

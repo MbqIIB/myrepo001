@@ -1,0 +1,164 @@
+#PspMsgTemplate.properties
+
+COLLECT_RECEIVE=You have received a collect request from {0} ({1}) for amount Rs. {2}. This transaction will expire on {3}.
+CREATE_MANDATE=You have received a UPI-Mandate Created by {0} for INR {1} towards {2} Login into SoPay BHIM application to Execute.
+MANDATE_RECEIVE=You have received a MANDATE request from {0} ({1}) for amount Rs. {2}.
+
+#Payer Send 
+PAYER_PAY_2=Your VPA {0} linked to {1} a/c no. {2} is debited for Rs.{3} and credited to {4} (UPI Ref no {5})
+
+PAYER_PAY_3_ZM=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INCORRECT MPIN (UPI Ref no  {2}).
+PAYER_PAY_3_XB=Your transaction request to  {0} for amount Rs.  {1} has failed. due to Technical Issue (UPI Ref no  {2}).
+PAYER_PAY_3_XD=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID AMOUNT (UPI Ref no  {2}).
+PAYER_PAY_3_XY=Your transaction request to  {0} for amount Rs.  {1} has failed. due to REMITTER Bank CBS Unavailable (UPI Ref no  {2}).
+PAYER_PAY_3_Z6=Your transaction request to  {0} for amount Rs.  {1} has failed. due to No. of PIN TRIES EXCEEDED (UPI Ref no  {2}).
+PAYER_PAY_3_Z7=Your transaction request to  {0} for amount Rs.  {1} has failed. due to TRANSACTION FREQUENCY LIMIT EXCEEDED AS SET BY {2} (UPI Ref no {3}).
+PAYER_PAY_3_Z8=Your transaction request to  {0} for amount Rs.  {1} has failed. due to PER TRANSACTION LIMIT EXCEEDED AS SET BY {2} (UPI Ref no {2}).
+PAYER_PAY_3_Z9=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INSUFFICIENT FUNDS IN BANK ACCOUNT (UPI Ref no  {2}).
+PAYER_PAY_3_ZD=Your transaction request to  {0} for amount Rs.  {1} has failed. due to TECHNICAL ERROR (UPI Ref no  {2}).
+PAYER_PAY_3_ZX=Your transaction request to  {0} for amount Rs.  {1} has failed. due to ACCOUNT IS INACTIVE (UPI Ref no  {2}).
+PAYER_PAY_3_YE=Your transaction request to  {0} for amount Rs.  {1} has failed. due to ACCOUNT FROZEN (UPI Ref no  {2}).
+PAYER_PAY_3_XC=Your transaction request to  {0} for amount Rs.  {1} has failed. due to Technical Issue. (UPI Ref no  {2}).
+PAYER_PAY_3_XE=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID AMOUNT. (UPI Ref no  {2}).
+PAYER_PAY_3_Y1=Your transaction request to  {0} for amount Rs.  {1} has failed. due to BENEFICIARY Bank CBS Unavailable (UPI Ref no  {2}).
+PAYER_PAY_3_YF=Your transaction request to  {0} for amount Rs.  {1} has failed. due to BENEFICIARY ACCOUNT FROZEN. (UPI Ref no  {2}).
+PAYER_PAY_3_Z5=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID BENEFICIARY CREDENTIALS (UPI Ref no  {2}).
+PAYER_PAY_3_ZY=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INACTIVE ACCOUNT BENFICIARY (UPI Ref no  {2}).
+PAYER_PAY_3_AM=Your transaction request to  {0} for amount Rs.  {1} has failed. due to UPI PIN is not set for the account. (UPI Ref no  {2}).
+PAYER_PAY_3_X6=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID Merchant detail. (UPI Ref no  {2}).
+PAYER_PAY_3_X7=Your transaction request to  {0} for amount Rs.  {1} has failed. due to Merchant is not responding. (UPI Ref no  {2}).
+PAYER_PAY_3_ZH=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID virtual address. (UPI Ref no  {2}).
+PAYER_PAY_3_UX=Your transaction request to  {0} for amount Rs.  {1} has failed. due to beneficiary virtual address is expired. (UPI Ref no  {2}).
+PAYER_PAY_3_ZG=Your transaction request to  {0} for amount Rs.  {1} has failed. due to the virtual address is restricted for receiving payments. (UPI Ref no  {2}).
+PAYER_PAY_3_ZE=Your transaction request to  {0} for amount Rs.  {1} has failed. due to the virtual address is restricted for receiving payments. (UPI Ref no  {2}).
+PAYER_PAY_3_ZB=Your transaction request to  {0} for amount Rs.  {1} has failed. due to INVALID merchant detail. (UPI Ref no  {2}).
+PAYER_PAY_3_YG=Your transaction request to  {0} for amount Rs.  {1} has failed. due to Merchant is not responding. (UPI Ref no  {2}).
+PAYER_PAY_3_ZI=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_K1=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XF=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XJ=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XN=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XP=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XR=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XT=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XH=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XV=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_YA=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_YC=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_ZP=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XK=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_XG=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XI=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XM=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XO=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XQ=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XS=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XU=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_XW=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_YB=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_YD=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_X1=Your transaction request to  {0} for amount Rs.  {1} has failed.  For details. (UPI Ref no  {2}).
+PAYER_PAY_3_UT=Your transaction request to  {0} for amount Rs.  {1} has failed.  For details. (UPI Ref no  {2}).
+PAYER_PAY_3_U53=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_U67=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_BT=Your transaction request to  {0} for amount Rs.  {1} has failed.  For details. (UPI Ref no  {2}).
+PAYER_PAY_3_U26=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_U68=Your transaction request to  {0} for amount Rs.  {1} has failed. For details. (UPI Ref no  {2}).
+PAYER_PAY_3_RB=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_RR=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+PAYER_PAY_3_B1=Your transaction request to  {0} for amount Rs.  {1} has failed. as your registered Mobile number linked to the account has been changed/removed. (UPI Ref no  {2}).
+PAYER_PAY_3_B3=Your transaction request to  {0} for amount Rs.  {1} has failed. as transactions are not permitted this account. (UPI Ref no  {2}).
+PAYER_PAY_3_B4=Your transaction request to  {0} for amount Rs.  {1} has failed. as merchant has declined the transaction. (UPI Ref no  {2}).
+PAYER_PAY_3_U17=Your transaction request to  {0} for amount Rs.  {1} has failed. as name followed by @ is incorrect. (UPI Ref no  {2}).
+PAYER_PAY_3_U66=Your transaction request to  {0} for amount Rs.  {1} has failed. as registered device has changed. Please refer to your bank for details. (UPI Ref no  {2}).
+PAYER_PAY_3_U09=Your transaction request to  {0} for amount Rs.  {1} has failed. Pleas try after sometime. (UPI Ref no  {2}).
+PAYER_PAY_3_U18=Your transaction request to  {0} for amount Rs.  {1} has failed. Pleas try after sometime. (UPI Ref no  {2}).
+PAYER_PAY_3_U09=Your transaction request to  {0} for amount Rs.  {1} has failed. Pleas try after sometime. (UPI Ref no  {2}).
+PAYER_PAY_3_U28=Your transaction request to  {0} for amount Rs.  {1} has failed. Pleas try after sometime. (UPI Ref no  {2}).
+
+
+
+
+PAYEE_PAY_2=Your VPA  {0} linked to a/c no. {1} is credited with Rs.{2} by {3} (UPI Ref no  {4})
+
+PAYEE_COLLECT_2=Your VPA  {0} linked to a/c no. {1} is credited with Rs.{2} by {3} (UPI Ref no {4})
+PAYEE_COLLECT_3_ZA=Your collect request initiated to {0} for Rs.  {1} has been rejected by payer.
+PAYEE_COLLECT_3_U69=Your collect request initiated to  {0} for Rs.  {1} expired on {2}. 
+PAYEE_COLLECT_3_U30=Your collect request initiated to  {0} for Rs.  {1} has failed. Please check with payer.
+PAYEE_COLLECT_3_U31=Your collect request initiated to  {0} for Rs.  {1} has failed. Please check with payer.
+PAYEE_COLLECT_3_U67=Your collect request initiated to  {0} for Rs.  {1} has failed. Please check with payer.
+PAYEE_COLLECT_3_U68=Your collect request initiated to  {0} for Rs.  {1} has failed. Please check with payer.
+--------------------------------------------------------------------------------------------------------------------------
+
+PAYEE_COLLECT_3_ZH=Your collect request to  {0} for amount Rs.  {1} has failed. due to INVALID virtual address. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_UX=Your collect request to  {0} for amount Rs.  {1} has failed. as the payer virtual address is expired. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_ZG=Your collect request to  {0} for amount Rs.  {1} has failed. as the virtual address is restricted for receiving payments. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_ZE=Your collect request to  {0} for amount Rs.  {1} has failed. as the virtual address is restricted for authorising payments. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_X1=Your collect request to  {0} for amount Rs.  {1} has failed. Pleas refer  {2} for details. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_B1=Your collect request to  {0} for amount Rs.  {1} has failed. as your registered Mobile number linked to the account has been changed/removed. (UPI Ref no  {2}).
+PAYEE_COLLECT_3_B3=Your collect request to  {0} for amount Rs.  {1} has failed. as transactions are not permitted this account. (UPI Ref no  {2}).
+
+
+## done with list Account
+LIST_ACCOUNT_2=You have successfully added your {0} Account in {1}.
+LIST_ACCOUNT_3_U09=Addition of your  {0} account has failed. Kindly contact your bank. 
+LIST_ACCOUNT_3_U13=Addition of your  {0} account has failed. Kindly contact your bank. 
+LIST_ACCOUNT_3_U28=Addition of your  {0} account has failed. Kindly contact your bank. 
+LIST_ACCOUNT_3_XH=Addition of your  {0} account has failed. due to ACCOUNT DOES NOT EXISTS with Mobile No. Kindly contact your bank and update your Mobile No. 
+LIST_ACCOUNT_3_YE=Addition of your  {0} account has failed. due to ACCOUNT BLOCKED/FROZEN. Kindly contact your bank. 
+LIST_ACCOUNT_3_ZX=Addition of your  {0} account has failed. due to INACTIVE/DORMANT ACCOUNT. Kindly contact your bank. 
+LIST_ACCOUNT_3_XB=Addition of your  {0} account has failed. due to technical issue. Please try again later. 
+LIST_ACCOUNT_3_BR=Your mobile number with {0} is linked to multiple accounts linked with different names. Kindly contact your bank.
+LIST_ACCOUNT_3_B2=Your mobile number with {0} is linked to an acccount linked with different names. Kindly contact your bank.
+LIST_ACCOUNT_3_B1=Your Registered Mobile number with {0} linked to the account has been changed or removed. Kindly contact your bank.
+LIST_ACCOUNT_3_B3=Your Transaction with {0} permitted to the account. Kindly contact your bank.
+
+REG_MOB_2= You have successfully created your UPI-PIN for {0} Account.
+REG_MOB_3_U09=Your SET UPI-PIN for  {0} has failed. Kindly contact your bank.
+REG_MOB_3_U13=Your SET UPI-PIN for  {0} has failed. Kindly contact your bank.
+REG_MOB_3_U14=Your SET UPI-PIN for  {0} has failed. Kindly contact your bank.
+REG_MOB_3_U28=Your SET UPI-PIN for  {0} has failed. Kindly contact your bank.
+REG_MOB_3_14=Your SET UPI-PIN for  {0} has failed. due to INVALID DEBIT CARD NUMBER. Please enter correct debit card no.
+REG_MOB_3_RM=Your SET UPI-PIN for  {0} has failed. due to INVALID POLICIES FOR UPI-PIN. Kindly check the UPI-PIN you are using or contact your bank for details.
+REG_MOB_3_XB=Your SET UPI-PIN for  {0} has failed. due to technical issue. Please try again after sometime.
+REG_MOB_3_XL=Your SET UPI-PIN for  {0} has failed. due to EXPIRED CARD. Kindly enter new card details or contact your bank.
+REG_MOB_3_XN=Your SET UPI-PIN for  {0} has failed. due to NO CARD RECORD. Kindly contact your bank.
+REG_MOB_3_ZD=Your SET UPI-PIN for  {0} has failed. Please try again later.
+REG_MOB_3_ZR=Your SET UPI-PIN for  {0} has failed. due to INCORRECT OTP. Kindly try again with correct details.
+REG_MOB_3_ZS=Your SET UPI-PIN for  {0} has failed. due to OTP EXPIRED. Kindly try again.
+REG_MOB_3_ZT=Your SET UPI-PIN for  {0} has failed. due to OTP LIMIT EXCEEDED. Kindly try after sometime.
+REG_MOB_3_XR=Your SET UPI-PIN for  {0} has failed. as card is restricted. Kindly contact your bank.
+REG_MOB_3_YA=Your SET UPI-PIN for  {0} has failed. as card is declared Lost or Stolen. Kindly contact your bank.
+REG_MOB_3_RN=Your SET UPI-PIN for  {0} has failed. due exceeding maximum no of attempts. Kindly try after sometime.
+
+#done for pin change
+SET_PIN_2=Your account  have successfully changed your UPI-PIN for  {0} Account in "Canara App".
+SET_PIN_3_U09=Your change UPI-PIN for  {0} has failed. Kindly contact your bank.
+SET_PIN_3_U13=Your change UPI-PIN for  {0} has failed. Kindly contact your bank.
+SET_PIN_3_U28=Your change UPI-PIN for  {0} has failed. Kindly contact your bank.
+SET_PIN_3_U14=Your change UPI-PIN for  {0} has failed. Kindly contact your bank.
+SET_PIN_3_RM=Your change UPI-PIN for  {0} has failed. due to INVALID UPI-PIN POLICIES . Kindly enter valid UPI PIN or contact your bank.
+SET_PIN_3_XB=Your change UPI-PIN for  {0} has failed. due to technical issue. Kindly try again after sometime.
+SET_PIN_3_Z6=Your change UPI-PIN for  {0} has failed. due to NO. OF PIN TRIES EXCEEDED. Kindly contact your bank.
+SET_PIN_3_ZM=Your change UPI-PIN for  {0} has failed. due to INVALID UPI-PIN. Kindly enter the correct PIN.
+SET_PIN_3_AM=Your change UPI-PIN for  {0} has failed. as UPI PIN is not set for this account
+#done for bal enq
+BAL_ENQ_3_XB=Your Balance Enquiry for  {0} Account has failed. due to technical issue. Please try after sometime.
+BAL_ENQ_3_Z6=Your Balance Enquiry for  {0} Account has failed. due to NO. OF PIN TRIES EXCEEDED. Kindly contact your bank.
+BAL_ENQ_3_ZD=Your Balance Enquiry for  {0} Account has failed. due to technical issue.pls try after sometime.
+BAL_ENQ_3_ZM=Your Balance Enquiry for  {0} Account has failed. due to INVALID UPI-PIN. Kindly enter valid PIN.
+BAL_ENQ_3_AM=Your Balance Enquiry for  {0} Account has failed. as UPI PIN is not set for this account 
+BAL_ENQ_3_U09=Your Balance Enquiry for  {0} has failed. Kindly contact your bank.
+BAL_ENQ_3_U13=Your Balance Enquiry for  {0} has failed. Kindly contact your bank.
+BAL_ENQ_3_U14=Your Balance Enquiry for  {0} has failed. Kindly contact your bank.
+BAL_ENQ_3_U28=Your Balance Enquiry for  {0} has failed. Kindly contact your bank.
+
+BAL_ENQ_3_YE=Your Balance Enquiry for  {0} has failed. as Account is BLOCKED OR FROZEN.
+PAYEE_COLLECT_3_U18=Your collect request to  {0} for amount Rs.  {1} has failed. as transactions was alredy expired. (UPI Ref no  {2}).
+LIST_ACCOUNT_DEF_NOTI=Addition of your  {0} account has failed. due to technical issue. Please try again later.
+PAYER_PAY_DEF_NOTI=Your transaction request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+
+PAYEE_COLLECT_DEF_NOTI=Your collect request to  {0} for amount Rs.  {1} has failed. (UPI Ref no  {2}).
+REG_MOB_DEF_NOTI=Your SET UPI-PIN for  {0} has failed. due to technical issue. Please try again after sometime.
+SET_PIN_DEF_NOTI=Your change UPI-PIN for  {0} has failed. Kindly contact your bank.
+BAL_ENQ_DEF_NOTI=Your Balance Enquiry for  {0} has failed. Kindly contact your bank.
